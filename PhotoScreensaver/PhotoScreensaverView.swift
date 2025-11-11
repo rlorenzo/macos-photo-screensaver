@@ -5,14 +5,16 @@ import Cocoa
 class PhotoScreensaverView: ScreenSaverView {
     
     // MARK: - Properties
-    
+
     private var imageView: NSImageView!
     private var photos: [PHAsset] = []
     private var currentPhotoIndex: Int = 0
     private var rotationTimer: Timer?
     private let rotationInterval: TimeInterval = 5.0 // Rotate every 5 seconds
+    private let fadeTransitionDuration: TimeInterval = 0.5
     private var imageManager: PHCachingImageManager!
     private var isAuthorized: Bool = false
+    private var messageView: NSTextField?
     
     // MARK: - Initialization
     
@@ -28,6 +30,7 @@ class PhotoScreensaverView: ScreenSaverView {
     
     deinit {
         rotationTimer?.invalidate()
+        imageManager?.stopCachingImagesForAllAssets()
     }
     
     // MARK: - Setup
@@ -55,14 +58,16 @@ class PhotoScreensaverView: ScreenSaverView {
     // MARK: - Photo Library Access
     
     private func requestPhotoLibraryAccess() {
-        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
-        
+        let status = PHPhotoLibrary.authorizationStatus(for: .addOnly)
+
         switch status {
         case .authorized, .limited:
-            isAuthorized = true
-            loadPhotos()
+            DispatchQueue.main.async { [weak self] in
+                self?.isAuthorized = true
+                self?.loadPhotos()
+            }
         case .notDetermined:
-            PHPhotoLibrary.requestAuthorization(for: .readWrite) { [weak self] newStatus in
+            PHPhotoLibrary.requestAuthorization(for: .addOnly) { [weak self] newStatus in
                 DispatchQueue.main.async {
                     if newStatus == .authorized || newStatus == .limited {
                         self?.isAuthorized = true
@@ -82,7 +87,10 @@ class PhotoScreensaverView: ScreenSaverView {
     private func showAccessDeniedMessage() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            
+
+            // Remove previous message if it exists
+            self.messageView?.removeFromSuperview()
+
             let textField = NSTextField(frame: self.bounds.insetBy(dx: 40, dy: 40))
             textField.stringValue = "Photo Library Access Required\n\nPlease grant access to Photos in System Settings > Privacy & Security > Photos"
             textField.alignment = .center
@@ -92,6 +100,7 @@ class PhotoScreensaverView: ScreenSaverView {
             textField.isEditable = false
             textField.font = NSFont.systemFont(ofSize: 24, weight: .medium)
             textField.autoresizingMask = [.width, .height]
+            self.messageView = textField
             self.addSubview(textField)
         }
     }
@@ -120,7 +129,10 @@ class PhotoScreensaverView: ScreenSaverView {
     private func showNoPhotosMessage() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            
+
+            // Remove previous message if it exists
+            self.messageView?.removeFromSuperview()
+
             let textField = NSTextField(frame: self.bounds.insetBy(dx: 40, dy: 40))
             textField.stringValue = "No Photos Found\n\nAdd photos to your Photos library to use this screensaver"
             textField.alignment = .center
@@ -130,6 +142,7 @@ class PhotoScreensaverView: ScreenSaverView {
             textField.isEditable = false
             textField.font = NSFont.systemFont(ofSize: 24, weight: .medium)
             textField.autoresizingMask = [.width, .height]
+            self.messageView = textField
             self.addSubview(textField)
         }
     }
@@ -139,55 +152,65 @@ class PhotoScreensaverView: ScreenSaverView {
     private func startRotation() {
         // Display first photo immediately
         displayCurrentPhoto()
-        
-        // Setup timer for rotation
-        rotationTimer = Timer.scheduledTimer(
-            timeInterval: rotationInterval,
-            target: self,
-            selector: #selector(rotateToNextPhoto),
-            userInfo: nil,
-            repeats: true
-        )
+
+        // Setup timer for rotation using block-based API to avoid retain cycles
+        rotationTimer = Timer.scheduledTimer(withTimeInterval: rotationInterval, repeats: true) { [weak self] _ in
+            self?.rotateToNextPhoto()
+        }
     }
-    
-    @objc private func rotateToNextPhoto() {
+
+    private func rotateToNextPhoto() {
         guard !photos.isEmpty else { return }
-        
+
         currentPhotoIndex = (currentPhotoIndex + 1) % photos.count
         displayCurrentPhoto()
     }
     
     private func displayCurrentPhoto() {
         guard !photos.isEmpty, currentPhotoIndex < photos.count else { return }
-        
+
         let asset = photos[currentPhotoIndex]
-        let targetSize = CGSize(width: bounds.width * 2, height: bounds.height * 2) // 2x for retina
-        
+
+        // Use actual backing scale factor instead of hardcoded 2x
+        let scale = window?.backingScaleFactor ?? NSScreen.main?.backingScaleFactor ?? 2.0
+        let targetSize = CGSize(width: bounds.width * scale, height: bounds.height * scale)
+
         let options = PHImageRequestOptions()
         options.deliveryMode = .highQualityFormat
         options.isNetworkAccessAllowed = true
         options.isSynchronous = false
-        
+
         imageManager.requestImage(
             for: asset,
             targetSize: targetSize,
             contentMode: .aspectFit,
             options: options
         ) { [weak self] image, info in
-            guard let self = self, let image = image else { return }
-            
-            DispatchQueue.main.async {
-                // Add fade transition
-                NSAnimationContext.runAnimationGroup { context in
-                    context.duration = 0.5
-                    self.imageView.animator().alphaValue = 0.0
-                } completionHandler: {
-                    self.imageView.image = image
+            guard let self = self else { return }
+
+            if let image = image {
+                DispatchQueue.main.async {
+                    // Add fade transition
                     NSAnimationContext.runAnimationGroup { context in
-                        context.duration = 0.5
-                        self.imageView.animator().alphaValue = 1.0
+                        context.duration = self.fadeTransitionDuration
+                        self.imageView.animator().alphaValue = 0.0
+                    } completionHandler: {
+                        self.imageView.image = image
+                        NSAnimationContext.runAnimationGroup { context in
+                            context.duration = self.fadeTransitionDuration
+                            self.imageView.animator().alphaValue = 1.0
+                        }
                     }
                 }
+            } else if let error = info?[PHImageErrorKey] as? Error {
+                // Log error and skip to next photo
+                NSLog("PhotoScreensaver: Failed to load image: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    self.rotateToNextPhoto()
+                }
+            } else {
+                // Image is nil but no error - might be cancelled or degraded
+                NSLog("PhotoScreensaver: Image loading returned nil without error")
             }
         }
     }
@@ -203,6 +226,8 @@ class PhotoScreensaverView: ScreenSaverView {
     
     override func stopAnimation() {
         super.stopAnimation()
+        rotationTimer?.invalidate()
+        rotationTimer = nil
     }
     
     override func animateOneFrame() {
