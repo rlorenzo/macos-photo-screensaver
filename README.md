@@ -13,8 +13,8 @@ A simple macOS screensaver that displays photos from your Photos library with sm
 
 ## Requirements
 
-- macOS 13.0 (Ventura) or later
-- Xcode 15.0 or later
+- macOS 13.0 (Ventura) or later (for running the screensaver)
+- Xcode 16.2 or later (for building with Swift 6.2)
 - Access to Photos library
 
 ## Building
@@ -64,12 +64,14 @@ The screensaver uses Apple's PhotoKit framework to:
 
 ## Technical Details
 
-- **Language**: Swift 5.0
+- **Language**: Swift 6.2
 - **Framework**: ScreenSaver, PhotoKit, Cocoa
 - **Deployment Target**: macOS 13.0+
+- **Build Requirements**: Xcode 16.2+
 - **Photo Loading**: PHCachingImageManager for efficient image loading
 - **Transitions**: NSAnimationContext for smooth fade effects
 - **Timer**: Uses Timer for photo rotation with configurable interval
+- **Concurrency**: Thread-safe with strict concurrency checking
 
 ## Customization
 
