@@ -58,7 +58,7 @@ class PhotoScreensaverView: ScreenSaverView {
     // MARK: - Photo Library Access
     
     private func requestPhotoLibraryAccess() {
-        let status = PHPhotoLibrary.authorizationStatus(for: .addOnly)
+        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
 
         switch status {
         case .authorized, .limited:
@@ -67,7 +67,7 @@ class PhotoScreensaverView: ScreenSaverView {
                 self?.loadPhotos()
             }
         case .notDetermined:
-            PHPhotoLibrary.requestAuthorization(for: .addOnly) { [weak self] newStatus in
+            PHPhotoLibrary.requestAuthorization(for: .readWrite) { [weak self] newStatus in
                 DispatchQueue.main.async {
                     if newStatus == .authorized || newStatus == .limited {
                         self?.isAuthorized = true
