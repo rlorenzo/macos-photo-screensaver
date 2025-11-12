@@ -56,8 +56,10 @@ class PhotoScreensaverView: ScreenSaverView {
     }
     
     // MARK: - Photo Library Access
-    
+
     private func requestPhotoLibraryAccess() {
+        // Note: PHAccessLevel only has two cases: .addOnly and .readWrite
+        // There is no .readOnly option. We must use .readWrite to read photos.
         let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
 
         switch status {

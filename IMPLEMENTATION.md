@@ -39,7 +39,8 @@ PHPhotoLibrary.authorizationStatus(for: .readWrite)
 PHPhotoLibrary.requestAuthorization(for: .readWrite)
 ```
 
-- Requests read-only access (despite `.readWrite`, only read is needed)
+- Uses `.readWrite` access level (required to read photos - no `.readOnly` option exists)
+- `PHAccessLevel` only has two cases: `.addOnly` (write-only) and `.readWrite` (read/write)
 - Handles all authorization states: authorized, limited, denied, restricted, notDetermined
 - Provides clear user feedback for each state
 
@@ -62,12 +63,14 @@ fetchOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType
 Requests high-quality images with appropriate sizing:
 
 ```swift
-let targetSize = CGSize(width: bounds.width * 2, height: bounds.height * 2)
+let scale = window?.backingScaleFactor ?? NSScreen.main?.backingScaleFactor ?? 2.0
+let targetSize = CGSize(width: bounds.width * scale, height: bounds.height * scale)
 options.deliveryMode = .highQualityFormat
 options.isNetworkAccessAllowed = true
 ```
 
-- Uses 2x size for Retina displays
+- Uses dynamic backing scale factor for proper Retina and non-Retina display support
+- Falls back to 2.0x if scale factor unavailable
 - Allows network access for iCloud photos
 - Asynchronous loading for smooth performance
 
