@@ -33,8 +33,8 @@ jobs:
           -project PhotoScreensaver.xcodeproj \
           -scheme PhotoScreensaver \
           -configuration Debug \
-          clean build \
-          CONFIGURATION_BUILD_DIR="$PWD/build" \
+          build \
+          CONFIGURATION_BUILD_DIR="$PWD/build/Debug" \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO
 
@@ -44,25 +44,42 @@ jobs:
           -project PhotoScreensaver.xcodeproj \
           -scheme PhotoScreensaver \
           -configuration Release \
-          clean build \
-          CONFIGURATION_BUILD_DIR="$PWD/build" \
+          build \
+          CONFIGURATION_BUILD_DIR="$PWD/build/Release" \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO
 
     - name: Verify build artifacts
       run: |
-        ls -lh build/
-        if [ ! -f "build/PhotoScreensaver.saver/Contents/MacOS/PhotoScreensaver" ]; then
-          echo "❌ Build artifact not found!"
+        echo "Checking Debug build..."
+        ls -lh build/Debug/
+        if [ ! -f "build/Debug/PhotoScreensaver.saver/Contents/MacOS/PhotoScreensaver" ]; then
+          echo "❌ Debug build artifact not found!"
           exit 1
         fi
-        echo "✅ Build artifact verified"
+        echo "✅ Debug build artifact verified"
 
-    - name: Upload build artifacts
+        echo ""
+        echo "Checking Release build..."
+        ls -lh build/Release/
+        if [ ! -f "build/Release/PhotoScreensaver.saver/Contents/MacOS/PhotoScreensaver" ]; then
+          echo "❌ Release build artifact not found!"
+          exit 1
+        fi
+        echo "✅ Release build artifact verified"
+
+    - name: Upload Debug build artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: PhotoScreensaver
-        path: build/PhotoScreensaver.saver
+        name: PhotoScreensaver-Debug
+        path: build/Debug/PhotoScreensaver.saver
+        retention-days: 7
+
+    - name: Upload Release build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: PhotoScreensaver-Release
+        path: build/Release/PhotoScreensaver.saver
         retention-days: 30
 
   lint:
@@ -79,4 +96,4 @@ jobs:
     - name: Run SwiftLint
       run: |
         swiftlint version
-        swiftlint lint --strict || true
+        swiftlint lint --strict

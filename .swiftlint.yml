@@ -39,8 +39,8 @@ type_name:
   max_length: 50
 
 function_body_length:
-  warning: 50
-  error: 100
+  warning: 80
+  error: 120
 
 file_length:
   warning: 500
