@@ -4,7 +4,6 @@ import Cocoa
 
 @MainActor
 class PhotoScreensaverView: ScreenSaverView {
-    
     // MARK: - Properties
 
     private var imageView: NSImageView!
