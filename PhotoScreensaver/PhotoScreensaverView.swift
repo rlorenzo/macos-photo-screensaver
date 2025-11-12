@@ -2,6 +2,7 @@ import ScreenSaver
 import Photos
 import Cocoa
 
+@MainActor
 class PhotoScreensaverView: ScreenSaverView {
     
     // MARK: - Properties
