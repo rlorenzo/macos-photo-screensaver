@@ -9,7 +9,7 @@ A complete, production-ready macOS screensaver that displays photos from the use
 ### Source Code
 - **PhotoScreensaver/PhotoScreensaverView.swift** (215 lines)
   - Main screensaver implementation
-  - Modern Swift 5.0
+  - Modern Swift 6.2
   - PhotoKit integration
   - Smooth transitions and rotation
 
@@ -77,7 +77,8 @@ A complete, production-ready macOS screensaver that displays photos from the use
 ✅ Retina display support
 
 ### Code Quality
-✅ Modern Swift 5.0 syntax
+✅ Modern Swift 6.2 syntax
+✅ Full Swift 6.2 concurrency compliance
 ✅ Memory management (weak self)
 ✅ Proper error handling
 ✅ MARK comments for organization
@@ -92,8 +93,8 @@ A complete, production-ready macOS screensaver that displays photos from the use
 
 ## Technology Stack
 
-- **Language**: Swift 5.0
-- **Frameworks**: 
+- **Language**: Swift 6.2
+- **Frameworks**:
   - ScreenSaver.framework
   - Photos.framework (PhotoKit)
   - Cocoa.framework
