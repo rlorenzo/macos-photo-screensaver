@@ -154,7 +154,7 @@ Users can easily modify:
 
 - **Minimum**: macOS 13.0 (Ventura)
 - **Target Framework**: ScreenSaver.framework
-- **Language**: Swift 5.0
+- **Language**: Swift 6.2
 - **Architecture**: Universal (Intel + Apple Silicon)
 
 ## Privacy & Security

@@ -19,10 +19,24 @@ A simple macOS screensaver that displays photos from your Photos library with sm
 
 ## Building
 
+### Using the Build Script (Recommended)
+
+The easiest way to build and install:
+
+```bash
+./build.sh                  # Build and install (Release)
+./build.sh --debug          # Build and install (Debug)
+./build.sh --build-only     # Build only, don't install
+./build.sh --ci             # CI mode (non-interactive)
+./build.sh --help           # Show help
+```
+
+### Using Xcode
+
 1. Open `PhotoScreensaver.xcodeproj` in Xcode
 2. Select the "PhotoScreensaver" scheme
 3. Build the project (⌘B)
-4. The screensaver bundle will be built to `~/Library/Screen Savers/PhotoScreensaver.saver`
+4. The screensaver bundle will be built to `build/PhotoScreensaver.saver`
 
 ## Installation
 
@@ -71,7 +85,7 @@ The screensaver uses Apple's PhotoKit framework to:
 - **Photo Loading**: PHCachingImageManager for efficient image loading
 - **Transitions**: NSAnimationContext for smooth fade effects
 - **Timer**: Uses Timer for photo rotation with configurable interval
-- **Concurrency**: Thread-safe with strict concurrency checking
+- **Concurrency**: Full Swift 6.2 concurrency compliance with @MainActor isolation
 
 ## Customization
 
