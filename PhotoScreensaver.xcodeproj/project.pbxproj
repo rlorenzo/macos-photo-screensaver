@@ -7,17 +7,47 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3BED8E672EDFA05A00F25BFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BED8E662EDFA05A00F25BFA /* Assets.xcassets */; };
 		A1000001000000000000001 /* PhotoScreensaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000002000000000000001 /* PhotoScreensaverView.swift */; };
+		A2000001000000000000001 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002000000000000001 /* main.swift */; };
+		A3000001000000000000001 /* PhotoSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3000002000000000000001 /* PhotoSource.swift */; };
+		A3000003000000000000001 /* PhotoSourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3000004000000000000001 /* PhotoSourceManager.swift */; };
+		A3000005000000000000001 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3000006000000000000001 /* ImageLoader.swift */; };
+		A3000007000000000000001 /* PhotoKitSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3000008000000000000001 /* PhotoKitSource.swift */; };
+		A3000009000000000000001 /* PhotosPackageSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3000010000000000000001 /* PhotosPackageSource.swift */; };
+		A3000011000000000000001 /* FileSystemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3000012000000000000001 /* FileSystemSource.swift */; };
+		A4000001000000000000001 /* thumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = A4000002000000000000001 /* thumbnail.png */; };
+		A4000003000000000000001 /* thumbnail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4000004000000000000001 /* thumbnail@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3BED8E662EDFA05A00F25BFA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1000002000000000000001 /* PhotoScreensaverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoScreensaverView.swift; sourceTree = "<group>"; };
 		A1000003000000000000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1000004000000000000001 /* PhotoScreensaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoScreensaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2000002000000000000001 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		A2000003000000000000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A2000004000000000000001 /* PhotoPermissionHelper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PhotoPermissionHelper.entitlements; sourceTree = "<group>"; };
+		A2000005000000000000001 /* PhotoPermissionHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoPermissionHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3000002000000000000001 /* PhotoSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSource.swift; sourceTree = "<group>"; };
+		A3000004000000000000001 /* PhotoSourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSourceManager.swift; sourceTree = "<group>"; };
+		A3000006000000000000001 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		A3000008000000000000001 /* PhotoKitSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoKitSource.swift; sourceTree = "<group>"; };
+		A3000010000000000000001 /* PhotosPackageSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosPackageSource.swift; sourceTree = "<group>"; };
+		A3000012000000000000001 /* FileSystemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemSource.swift; sourceTree = "<group>"; };
+		A4000002000000000000001 /* thumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumbnail.png; sourceTree = "<group>"; };
+		A4000004000000000000001 /* thumbnail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumbnail@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		A1000005000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A2000006000000000000001 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -31,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				A1000007000000000000001 /* PhotoScreensaver */,
+				A2000007000000000000001 /* PhotoPermissionHelper */,
 				A1000008000000000000001 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -39,17 +70,53 @@
 			isa = PBXGroup;
 			children = (
 				A1000002000000000000001 /* PhotoScreensaverView.swift */,
+				A3000002000000000000001 /* PhotoSource.swift */,
+				A3000004000000000000001 /* PhotoSourceManager.swift */,
+				A3000006000000000000001 /* ImageLoader.swift */,
+				A3000013000000000000001 /* Sources */,
+				A4000005000000000000001 /* Resources */,
 				A1000003000000000000001 /* Info.plist */,
 			);
 			path = PhotoScreensaver;
+			sourceTree = "<group>";
+		};
+		A4000005000000000000001 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A4000002000000000000001 /* thumbnail.png */,
+				A4000004000000000000001 /* thumbnail@2x.png */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		A1000008000000000000001 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				A1000004000000000000001 /* PhotoScreensaver.saver */,
+				A2000005000000000000001 /* PhotoPermissionHelper.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A2000007000000000000001 /* PhotoPermissionHelper */ = {
+			isa = PBXGroup;
+			children = (
+				3BED8E662EDFA05A00F25BFA /* Assets.xcassets */,
+				A2000002000000000000001 /* main.swift */,
+				A2000003000000000000001 /* Info.plist */,
+				A2000004000000000000001 /* PhotoPermissionHelper.entitlements */,
+			);
+			path = PhotoPermissionHelper;
+			sourceTree = "<group>";
+		};
+		A3000013000000000000001 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				A3000008000000000000001 /* PhotoKitSource.swift */,
+				A3000010000000000000001 /* PhotosPackageSource.swift */,
+				A3000012000000000000001 /* FileSystemSource.swift */,
+			);
+			path = Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -72,6 +139,23 @@
 			productReference = A1000004000000000000001 /* PhotoScreensaver.saver */;
 			productType = "com.apple.product-type.bundle";
 		};
+		A2000008000000000000001 /* PhotoPermissionHelper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A2000009000000000000001 /* Build configuration list for PBXNativeTarget "PhotoPermissionHelper" */;
+			buildPhases = (
+				A2000010000000000000001 /* Sources */,
+				A2000006000000000000001 /* Frameworks */,
+				A2000011000000000000001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PhotoPermissionHelper;
+			productName = PhotoPermissionHelper;
+			productReference = A2000005000000000000001 /* PhotoPermissionHelper.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -83,6 +167,10 @@
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					A1000009000000000000001 = {
+						CreatedOnToolsVersion = 15.0;
+						LastSwiftMigration = 1500;
+					};
+					A2000008000000000000001 = {
 						CreatedOnToolsVersion = 15.0;
 						LastSwiftMigration = 1500;
 					};
@@ -102,6 +190,7 @@
 			projectRoot = "";
 			targets = (
 				A1000009000000000000001 /* PhotoScreensaver */,
+				A2000008000000000000001 /* PhotoPermissionHelper */,
 			);
 		};
 /* End PBXProject section */
@@ -111,6 +200,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4000001000000000000001 /* thumbnail.png in Resources */,
+				A4000003000000000000001 /* thumbnail@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A2000011000000000000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BED8E672EDFA05A00F25BFA /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,6 +221,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1000001000000000000001 /* PhotoScreensaverView.swift in Sources */,
+				A3000001000000000000001 /* PhotoSource.swift in Sources */,
+				A3000003000000000000001 /* PhotoSourceManager.swift in Sources */,
+				A3000005000000000000001 /* ImageLoader.swift in Sources */,
+				A3000007000000000000001 /* PhotoKitSource.swift in Sources */,
+				A3000009000000000000001 /* PhotosPackageSource.swift in Sources */,
+				A3000011000000000000001 /* FileSystemSource.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A2000010000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2000001000000000000001 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,7 +363,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
+				COMBINE_HIDPI_IMAGES = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -273,7 +386,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
+				COMBINE_HIDPI_IMAGES = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -289,6 +402,58 @@
 				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 6.0;
 				WRAPPER_EXTENSION = saver;
+			};
+			name = Release;
+		};
+		A2000012000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PhotoPermissionHelper/PhotoPermissionHelper.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = PhotoPermissionHelper/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025. All rights reserved.";
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rlorenzo.PhotoPermissionHelper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		A2000013000000000000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PhotoPermissionHelper/PhotoPermissionHelper.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = PhotoPermissionHelper/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025. All rights reserved.";
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rlorenzo.PhotoPermissionHelper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};
@@ -309,6 +474,15 @@
 			buildConfigurations = (
 				A1000015000000000000001 /* Debug */,
 				A1000016000000000000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A2000009000000000000001 /* Build configuration list for PBXNativeTarget "PhotoPermissionHelper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A2000012000000000000001 /* Debug */,
+				A2000013000000000000001 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
