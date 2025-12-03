@@ -60,21 +60,18 @@ The easiest way to build and install:
 
 ## Granting Photo Access
 
-The first time the screensaver runs, macOS will prompt you to grant access to your Photos library. You can also manually grant access:
-
-1. Open System Settings
-2. Go to Privacy & Security > Photos
-3. Enable access for "PhotoScreensaver"
+Due to macOS security restrictions, third-party screensavers cannot directly request Photos library access. The screensaver uses a cascading fallback system to find photos automatically. For best results, see **Granting Full Disk Access** below.
 
 ## How It Works
 
-The screensaver uses Apple's PhotoKit framework to:
+The screensaver uses a cascading photo source system to find photos:
 
-1. Request authorization to access the Photos library
-2. Fetch all image assets from the library
-3. Display photos in full-screen with aspect-fit scaling
-4. Automatically rotate to the next photo every 5 seconds
-5. Use smooth fade transitions between photos
+1. **PhotoKit** - Requests access to your Photos library (if permission granted)
+2. **Photos Library Files** - Reads directly from `~/Pictures/Photos Library.photoslibrary/` (requires Full Disk Access)
+3. **Pictures Folder** - Scans `~/Pictures/` for image files
+4. **Other Locations** - Falls back to Desktop and Downloads folders
+
+This design ensures the screensaver can display photos even when PhotoKit permissions aren't available (which is common for third-party screensavers on modern macOS).
 
 ## Technical Details
 
@@ -82,7 +79,9 @@ The screensaver uses Apple's PhotoKit framework to:
 - **Framework**: ScreenSaver, PhotoKit, Cocoa
 - **Deployment Target**: macOS 13.0+
 - **Build Requirements**: Xcode 16.2+
-- **Photo Loading**: PHCachingImageManager for efficient image loading
+- **Photo Sources**: Cascading system (PhotoKit, Photos Library files, Pictures folder, Desktop/Downloads)
+- **Image Loading**: CGImageSource for thread-safe HEIC/JPEG/PNG loading
+- **Caching**: NSCache with size-aware keys for efficient memory usage
 - **Transitions**: NSAnimationContext for smooth fade effects
 - **Timer**: Uses Timer for photo rotation with configurable interval
 - **Concurrency**: Full Swift 6.2 concurrency compliance with @MainActor isolation
@@ -103,18 +102,42 @@ This screensaver:
 - Does not modify your photo library
 - Runs entirely locally on your Mac
 
+## Granting Full Disk Access
+
+For the best experience (displaying photos from your Photos library), grant Full Disk Access:
+
+1. Open **System Settings > Privacy & Security > Full Disk Access**
+2. Click the **+** button
+3. Navigate to `/System/Library/Frameworks/ScreenSaver.framework/PlugIns/legacyScreenSaver.appex`
+   - Press `Cmd+Shift+G` in the file picker and paste the path above
+4. Add `legacyScreenSaver.appex` to the list and enable it
+5. Restart the screensaver preview
+
+**Why is this needed?** Third-party screensavers run inside `legacyScreenSaver.appex`, which cannot request Photos permissions directly. Full Disk Access allows the screensaver to read photos from the Photos Library package.
+
+## PhotoPermissionHelper App
+
+The project includes a helper app that provides guidance for setting up permissions:
+
+1. Build the **PhotoPermissionHelper** target in Xcode
+2. Run the app
+3. Use the buttons to:
+   - **Open Full Disk Access Settings** - Opens the correct System Settings page
+   - **Reveal in Finder** - Shows the `legacyScreenSaver.appex` file to add
+
 ## Troubleshooting
 
 ### "No Photos Found" Message
 
-- Ensure you have photos in your Photos library
-- Check that the Photos app can access your library
+- Grant Full Disk Access to `legacyScreenSaver.appex` (see above)
+- Ensure you have photos in your Photos library or Pictures folder
+- Check that image files exist in `~/Pictures/`
 
 ### "Photo Library Access Required" Message
 
-- Open System Settings > Privacy & Security > Photos
-- Enable access for the screensaver
-- Restart the screensaver preview
+This message appears when PhotoKit access is denied. The screensaver will automatically try alternative sources:
+- Grant Full Disk Access to read from the Photos Library package
+- Or place photos directly in your `~/Pictures/` folder
 
 ### Screensaver Not Appearing in System Settings
 
@@ -124,4 +147,4 @@ This screensaver:
 
 ## License
 
-Copyright © 2025. All rights reserved.
+MIT License - see [LICENSE](LICENSE) for details.

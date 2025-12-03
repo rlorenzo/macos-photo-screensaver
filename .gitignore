@@ -5,9 +5,11 @@
 ## Build output
 build/
 DerivedData/
+*.app
 
 ## User settings
 xcuserdata/
+*.xcworkspace/
 
 ## Obj-C/Swift specific
 *.hmap
@@ -64,3 +66,5 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+.DS_Store
